@@ -5,7 +5,16 @@ package com.example.dorra.screensplash;
  */
 
 public class Document {
+    private String docID;
     private String chemin;
+
+    public String getDocID() {
+        return docID;
+    }
+
+    public void setDocID(String docID) {
+        this.docID = docID;
+    }
 
     public String getChemin() {
         return chemin;
