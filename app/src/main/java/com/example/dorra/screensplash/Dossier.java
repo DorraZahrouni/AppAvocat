@@ -1,23 +1,21 @@
 package com.example.dorra.screensplash;
 
-import java.sql.Date;
-
 /**
  * Created by Tej Eddine on 24/01/2017.
  */
 
 public class Dossier {
-    private Date dateAcceptaion;
+    private String dateAcceptaion;
     private String idDossier;
     private String couleur;
     private String remarques;
     private String type;
 
-    public Date getDateAcceptaion() {
+    public String getDateAcceptaion() {
         return dateAcceptaion;
     }
 
-    public void setDateAcceptaion(Date dateAcceptaion) {
+    public void setDateAcceptaion(String dateAcceptaion) {
         this.dateAcceptaion = dateAcceptaion;
     }
 

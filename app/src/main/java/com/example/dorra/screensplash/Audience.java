@@ -1,15 +1,19 @@
 package com.example.dorra.screensplash;
 
-import java.sql.Date;
-
 /**
  * Created by Tej Eddine on 24/01/2017.
  */
 
 public class Audience {
     private String id;
-    private Date date;
+    private String date;
     private String type;
+
+    public Audience(String id, String date, String type) {
+        this.id = id;
+        this.date = date;
+        this.type = type;
+    }
 
     public String getId() {
         return id;
@@ -19,11 +23,11 @@ public class Audience {
         this.id = id;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

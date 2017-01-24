@@ -38,7 +38,8 @@ public class MainActivity extends Activity  {
                         ed2.getText().toString().equals("admin")) {
                     Toast.makeText(getApplicationContext(),
                             "Redirecting...",Toast.LENGTH_SHORT).show();
-                }else{
+                }
+                else {
                     Toast.makeText(getApplicationContext(), "WrongCredentials",Toast.LENGTH_SHORT).show();
 
                             tx1.setVisibility(View.VISIBLE);
