@@ -1,34 +1,14 @@
 package com.example.dorra.screensplash;
 
-import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import android.content.Context;
-import android.os.AsyncTask;
-import android.widget.TextView;
-
-//import com.sourcey.materiallogindemo.R;
 
 import butterknife.ButterKnife;
 import butterknife.BindView;
@@ -41,6 +21,8 @@ public class SignupActivity extends AppCompatActivity {
     @BindView(R.id.input_password) EditText _passwordText;
     @BindView(R.id.btn_signup) Button _signupButton;
     @BindView(R.id.link_login) TextView _loginLink;
+
+    DBHandler db = new DBHandler(this);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,80 +41,34 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Finish the registration screen and return to the Login activity
+                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
     }
 
     public void signup() {
-        Log.d(TAG, "Signup");
-
-        if (!validate()) {
-            onSignupFailed();
-            return;
-        }
-
-        _signupButton.setEnabled(false);
-
-        final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
-                R.style.AppTheme);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Creating Account...");
-        progressDialog.show();
-
-        String name = _nameText.getText().toString();
-        String email = _emailText.getText().toString();
+        String name =_nameText.getText().toString();
+        String mail = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        // TODO: Implement your own signup logic here.
+        if(!db.existAvocat(mail)) {
+            db.addAvocat(new Avocat(mail,password,name,"//","//"));
+            SignupSuccess();
+        }else
+            SignupFailed();
 
-        String link="http://localhost:8080/edsa-MobileAppLawyers/login.php";
-
-        String data  = null;
-        try {
-            data = URLEncoder.encode("username", "UTF-8") + "=" +
-                    URLEncoder.encode(name, "UTF-8");
-            data += "&" + URLEncoder.encode("mail", "UTF-8") + "=" +
-                    URLEncoder.encode(email, "UTF-8");
-            data += "&" + URLEncoder.encode("password", "UTF-8") + "=" +
-                    URLEncoder.encode(password, "UTF-8");
-
-            URL url = new URL(link);
-            URLConnection conn = url.openConnection();
-
-            conn.setDoOutput(true);
-            OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-
-            wr.write( data );
-            wr.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
     }
 
 
-    public void onSignupSuccess() {
+    public void SignupSuccess() {
         _signupButton.setEnabled(true);
-        setResult(RESULT_OK, null);
-        finish();
+        Toast.makeText(getBaseContext(), "Signup Successful", Toast.LENGTH_LONG).show();
     }
 
-    public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-
+    public void SignupFailed() {
+        Toast.makeText(getBaseContext(), "Signup failed, User already registerd", Toast.LENGTH_LONG).show();
         _signupButton.setEnabled(true);
     }
 
@@ -165,5 +101,5 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         return valid;
-    }
+    } //Verification
 }

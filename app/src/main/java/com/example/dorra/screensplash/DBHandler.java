@@ -67,8 +67,8 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String KEY_AVOCAT_PRENOM = "prenom";
     private static final String KEY_AVOCAT_PHOTO = "cheminPhoto";
 
-    public DBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    public DBHandler(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     public DBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version, DatabaseErrorHandler errorHandler) {
@@ -77,38 +77,38 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String CREATE_TABLE_AUDIENCE =  "CREATE TABLE" + TABLE_AUDIENCE + "(" +
-                KEY_AUDIENCE_ID + "TEXT PRIMARY KEY," +
-                KEY_AUDIENCE_DATE + "TEXT," +
-                KEY_AUDIENCE_TYPE + "TEXT" + ")";
-        String CREATE_TABLE_DOCUMENT = "CREATE TABLE" + TABLE_DOCUMENT + "(" +
-                KEY_DOCUMENT_ID + "TEXT PRIMARY KEY," +
-                KEY_DOCUMENT_CHEMIN + "TEXT" + ")";
-        String CREATE_TABLE_DOSSIER = "CREATE TABLE" + TABLE_DOSSIER + "(" +
-                KEY_DOSSIER_ID + "TEXT PRIMARY KEY," +
-                KEY_DOSSIER_DATE + "TEXT," +
-                KEY_DOSSIER_COULEUR + "TEXT," +
-                KEY_DOSSIER_REMARQUES + "TEXT," +
-                KEY_DOSSIER_TYPE + "TEXT" + ")";
-        String CREATE_TABLE_PERSONNE_MORALE = "CREATE TABLE" + TABLE_PERSONNE_MORALE + "(" +
-                KEY_PERSONNE_MORALE_MATRICULE_FISCALE + "TEXT PRIMARY KEY," +
-                KEY_PERSONNE_MORALE_NOM + "TEXT," +
-                KEY_PERSONNE_MORALE_TYPE + "TEXT," +
-                KEY_PERSONNE_MORALE_SIEGE_SOCIAL + "TEXT," +
-                KEY_PERSONNE_MORALE_REGISTRE_COMMERCE + "TEXT" + ")";
-        String CREATE_TABLE_PERSONNE_PHYSIQUE = "CREATE TABLE" + TABLE_PERSONNE_PHYSIQUE + "(" +
-                KEY_PERSONNE_PHYSIQUE_CIN + "TEXT PRIMARY KEY," +
-                KEY_PERSONNE_PHYSIQUE_NOM + "TEXT," +
-                KEY_PERSONNE_PHYSIQUE_PRENOM + "TEXT," +
-                KEY_PERSONNE_PHYSIQUE_ADRESSE + "TEXT," +
-                KEY_PERSONNE_PHYSIQUE_TEL + "TEXT," +
-                KEY_PERSONNE_PHYSIQUE_PROFESSION + "TEXT," + ")";
-        String CREATE_TABLE_AVOCAT = "CREATE TABLE" + TABLE_AVOCAT + "(" +
-                KEY_AVOCAT_MAIL + "TEXT PRIMARY KEY," +
-                KEY_AVOCAT_PASSWORD + "TEXT," +
-                KEY_AVOCAT_NOM + "TEXT," +
-                KEY_AVOCAT_PRENOM + "TEXT," +
-                KEY_AVOCAT_PHOTO + "TEXT" + ")";
+        String CREATE_TABLE_AUDIENCE =  "CREATE TABLE " + TABLE_AUDIENCE + "(" +
+                KEY_AUDIENCE_ID + " TEXT PRIMARY KEY," +
+                KEY_AUDIENCE_DATE + " TEXT," +
+                KEY_AUDIENCE_TYPE + " TEXT" + ")";
+        String CREATE_TABLE_DOCUMENT = " CREATE TABLE " + TABLE_DOCUMENT + "(" +
+                KEY_DOCUMENT_ID + " TEXT PRIMARY KEY," +
+                KEY_DOCUMENT_CHEMIN + " TEXT" + ")";
+        String CREATE_TABLE_DOSSIER = " CREATE TABLE " + TABLE_DOSSIER + "(" +
+                KEY_DOSSIER_ID + " TEXT PRIMARY KEY," +
+                KEY_DOSSIER_DATE + " TEXT," +
+                KEY_DOSSIER_COULEUR + " TEXT," +
+                KEY_DOSSIER_REMARQUES + " TEXT," +
+                KEY_DOSSIER_TYPE + " TEXT" + ")";
+        String CREATE_TABLE_PERSONNE_MORALE = " CREATE TABLE " + TABLE_PERSONNE_MORALE + "(" +
+                KEY_PERSONNE_MORALE_MATRICULE_FISCALE + " TEXT PRIMARY KEY," +
+                KEY_PERSONNE_MORALE_NOM + " TEXT," +
+                KEY_PERSONNE_MORALE_TYPE + " TEXT," +
+                KEY_PERSONNE_MORALE_SIEGE_SOCIAL + " TEXT," +
+                KEY_PERSONNE_MORALE_REGISTRE_COMMERCE + " TEXT" + ")";
+        String CREATE_TABLE_PERSONNE_PHYSIQUE = " CREATE TABLE " + TABLE_PERSONNE_PHYSIQUE + "(" +
+                KEY_PERSONNE_PHYSIQUE_CIN + " TEXT PRIMARY KEY," +
+                KEY_PERSONNE_PHYSIQUE_NOM + " TEXT," +
+                KEY_PERSONNE_PHYSIQUE_PRENOM + " TEXT," +
+                KEY_PERSONNE_PHYSIQUE_ADRESSE + " TEXT," +
+                KEY_PERSONNE_PHYSIQUE_TEL + " TEXT," +
+                KEY_PERSONNE_PHYSIQUE_PROFESSION + " TEXT" + ")";
+        String CREATE_TABLE_AVOCAT = " CREATE TABLE " + TABLE_AVOCAT + "(" +
+                KEY_AVOCAT_MAIL + " TEXT PRIMARY KEY," +
+                KEY_AVOCAT_PASSWORD + " TEXT," +
+                KEY_AVOCAT_NOM + " TEXT," +
+                KEY_AVOCAT_PRENOM + " TEXT," +
+                KEY_AVOCAT_PHOTO + " TEXT" + ")";
 
         sqLiteDatabase.execSQL(CREATE_TABLE_AUDIENCE);
         sqLiteDatabase.execSQL(CREATE_TABLE_DOCUMENT);
@@ -120,12 +120,12 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS" + TABLE_AUDIENCE);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS" + TABLE_DOCUMENT);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS" + TABLE_DOSSIER);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS" + TABLE_PERSONNE_MORALE);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS" + TABLE_PERSONNE_PHYSIQUE);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS" + TABLE_AVOCAT);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_AUDIENCE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_DOCUMENT);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_DOSSIER);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PERSONNE_MORALE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PERSONNE_PHYSIQUE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_AVOCAT);
 
         onCreate(sqLiteDatabase);
     }
@@ -143,17 +143,42 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_AVOCAT_MAIL, avocat.getMail());
-        values.put(KEY_AVOCAT_PASSWORD, avocat.getPassword()); // TODO: 24/01/2017 Utiliser un webservice pour le mot de passe
+        values.put(KEY_AVOCAT_PASSWORD, avocat.getPassword());
         values.put(KEY_AVOCAT_NOM, avocat.getNom());
-        values.put(KEY_AVOCAT_PHOTO, avocat.getCheminPhoto()); // TODO: 24/01/2017 Enregistrer l'image dans l'app
+        values.put(KEY_AVOCAT_PRENOM, avocat.getPrenom());
+        values.put(KEY_AVOCAT_PHOTO, avocat.getCheminPhoto());
         sqLiteDatabase.insert(TABLE_AVOCAT, null, values);
         sqLiteDatabase.close();
+    }
+
+    public Avocat getAvocat(String mail){ //lire un avocat
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        String Query = "Select * from " + TABLE_AVOCAT + " WHERE " + KEY_AVOCAT_MAIL + "= '" + mail +"'";
+        //Cursor cursor = sqLiteDatabase.query(TABLE_AVOCAT, new String[] {KEY_AVOCAT_MAIL, KEY_AVOCAT_PASSWORD,
+        //        KEY_AVOCAT_NOM, KEY_AVOCAT_PRENOM, KEY_AVOCAT_PHOTO}, KEY_AVOCAT_MAIL + "=?", new String[] {mail}, null, null, null);
+        Cursor cursor = sqLiteDatabase.rawQuery(Query, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+        Avocat avocat = new Avocat(cursor.getString(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4));
+        return avocat;
+    }
+
+    public boolean existAvocat(String mail){
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        String Query = "Select * from " + TABLE_AVOCAT + " WHERE " + KEY_AVOCAT_MAIL + "= '" + mail +"'";
+        Cursor cursor = sqLiteDatabase.rawQuery(Query, null);
+        if(cursor.getCount() <= 0){
+            cursor.close();
+            return false;
+        }
+        cursor.close();
+        return true;
     }
 
     public void addDocument(Document document){ //Ajouter un document
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_DOCUMENT_CHEMIN, document.getChemin()); // TODO: 24/01/2017 Enregistrer le doc dans l'app
+        values.put(KEY_DOCUMENT_CHEMIN, document.getChemin());
         sqLiteDatabase.insert(TABLE_DOCUMENT, null, values);
         sqLiteDatabase.close();
     }
@@ -204,14 +229,5 @@ public class DBHandler extends SQLiteOpenHelper {
         return audience;
     }
 
-    public Avocat getAvocat(String mail){ //lire un avocat
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.query(TABLE_AVOCAT, new String[] {KEY_AVOCAT_MAIL, KEY_AVOCAT_PASSWORD,
-                KEY_AVOCAT_NOM, KEY_AVOCAT_PRENOM, KEY_AVOCAT_PHOTO}, KEY_AVOCAT_MAIL + "=?", new String[] {mail}, null, null, null);
-        if (cursor != null)
-            cursor.moveToFirst();
-        Avocat avocat = new Avocat(cursor.getString(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4));
-        return avocat;
-    }
-    // DISCONTINUED
+
 }
